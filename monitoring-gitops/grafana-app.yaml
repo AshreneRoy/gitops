@@ -6,14 +6,22 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/ashrene/gitops.git
-    targetRevision: HEAD
-    path: monitoring-gitops/grafana
+    repoURL: https://grafana.github.io/helm-charts
+    chart: grafana
+    targetRevision: 7.3.11
     helm:
-      chart: grafana
-      repoURL: https://grafana.github.io/helm-charts
-      valueFiles:
-        - values.yaml
+      values: |
+        adminUser: admin
+        adminPassword: admin
+        datasources:
+          datasources.yaml:
+            apiVersion: 1
+            datasources:
+              - name: Prometheus
+                type: prometheus
+                url: http://prometheus-server.monitoring.svc.cluster.local
+                access: proxy
+                isDefault: true
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
