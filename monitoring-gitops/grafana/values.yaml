@@ -1,0 +1,33 @@
+adminUser: admin
+adminPassword: admin
+
+service:
+  type: ClusterIP
+
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        type: prometheus
+        url: http://prometheus-server.monitoring.svc.cluster.local
+        access: proxy
+        isDefault: true
+
+dashboardProviders:
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+      - name: default
+        orgId: 1
+        folder: ""
+        type: file
+        disableDeletion: false
+        updateIntervalSeconds: 10
+        options:
+          path: /var/lib/grafana/dashboards/default
+
+sidecar:
+  dashboards:
+    enabled: true
+    label: grafana_dashboard

@@ -1,0 +1,10 @@
+server:
+  service:
+    type: ClusterIP
+
+  # Add scrape job for FastAPI
+  additionalScrapeConfigs:
+    - job_name: 'fastapi'
+      metrics_path: /metrics
+      static_configs:
+        - targets: ['learn-application-test-app.learn.svc.cluster.local:80']
